@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Admin — SPIDER-VERSE: ROBOT DRIVE</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="ahead"><p class="pres">TECHNICAL CLUB PRESENTS</p><h1>ROBO <i>-</i> <b>DRIVE</b></h1><p class="sub">ADMIN PANEL</p></header>
+<main>
+  <section id="sheetMode" class="hidden">
+    <div class="card">
+      <h2>Entries come from the Google Sheet</h2>
+      <p class="hint">Add, edit or delete results directly in the spreadsheet. The leaderboard re-reads it automatically. Only people you share the sheet with as Editors can change it.</p>
+      <div class="actions">
+        <a class="btn hidden" id="openSheet" target="_blank" rel="noopener">Open spreadsheet</a>
+        <button class="btn blue" id="refresh" type="button">Check now</button>
+        <a class="btn blue" href="index.html" target="_blank" rel="noopener">Open leaderboard</a>
+      </div>
+      <p class="msg" id="sheetStatus"></p>
+    </div>
+    <div class="card"><h2>Rows that need fixing</h2><div id="sheetIssues"></div></div>
+    <div class="card"><h2>Current ranking (from the sheet)</h2><div id="sheetList"></div></div>
+  </section>
+  <section id="login" class="card narrow">
+    <h2>Admin login</h2>
+    <label for="email">Username</label><input id="email" type="text" autocomplete="username" placeholder="technical@club">
+    <label for="pass">Password</label><input id="pass" type="password" autocomplete="current-password">
+    <div class="actions"><button class="btn" id="loginBtn" type="button">Log in</button></div>
+    <p class="msg" id="loginMsg"></p>
+  </section>
+
+  <section id="dash" class="hidden">
+    <div class="bar"><a class="btn blue sm" href="index.html" target="_blank" style="text-decoration:none">Open leaderboard</a>
+      <span><span id="who" style="color:var(--mut)"></span> <button class="btn sm" id="logout" type="button">Log out</button></span></div>
+    <div class="card">
+      <h2 id="formTitle">Add team result</h2>
+      <div class="fgrid">
+        <div><label for="name">Team name</label><input id="name" maxlength="40"></div>
+        <div><label for="mins">Minutes</label><input id="mins" type="number" step="1" min="0" inputmode="numeric" placeholder="2"></div>
+        <div><label for="secs">Seconds</label><input id="secs" type="number" step="0.01" min="0" max="59.99" inputmode="decimal" placeholder="35.45"></div>
+      </div>
+      <div class="actions"><button class="btn" id="save" type="button">Save result</button><button class="btn blue hidden" id="cancel" type="button">Cancel edit</button></div>
+      <p class="msg" id="msg"></p>
+    </div>
+    <div class="card">
+      <h2>Spreadsheet entry</h2>
+      <p class="hint">Type in the grid, or copy rows from Excel / Google Sheets and paste them into any cell. Columns: Team · Minutes · Seconds (or Team · m:ss.xx). A team that already exists is updated, not duplicated.</p>
+      <div class="sheetwrap"><table class="sheet"><thead><tr><th>#</th><th>Team name</th><th>Minutes</th><th>Seconds</th><th></th></tr></thead><tbody id="sheetBody"></tbody></table></div>
+      <div class="actions">
+        <button class="btn" id="sheetSave" type="button">Save all to leaderboard</button>
+        <button class="btn blue" id="sheetAdd" type="button">Add row</button>
+        <button class="btn blue" id="sheetImport" type="button">Import CSV / Excel</button>
+        <button class="btn blue" id="sheetExport" type="button">Export CSV</button>
+        <button class="btn blue" id="sheetClear" type="button">Clear grid</button>
+        <input id="sheetFile" type="file" accept=".csv,.txt,.xlsx,.xls" hidden>
+      </div>
+      <p class="msg" id="sheetMsg"></p>
+    </div>
+    <div class="card"><h2>All results (ranked by lowest time)</h2><div id="list"></div></div>
+  </section>
+</main>
+
+<div class="modal" id="modal"><div class="card narrow">
+  <h2>Delete result?</h2><p id="delText"></p>
+  <div class="actions"><button class="btn" id="delYes" type="button">Delete</button><button class="btn blue" id="delNo" type="button">Keep</button></div>
+</div></div>
+<script type="module">import { DATA_SOURCE } from "./config.js"; import(DATA_SOURCE === "firebase" ? "./admin.js" : "./sheet-admin.js");</script>
+</body></html>
